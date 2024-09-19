@@ -2,13 +2,209 @@
   Autor: Gabrielly Silva
   Email: gabrielly.silvao@upe.br
   Data de criação: 14/09/2024
-  Última atualização: 19/09/2024 19:22
+  Última atualização: 19/09/2024 20:41
   Descrição: Calculadora programadora que converte números em diferentes bases e realiza conversões de ponto flutuante.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
+// Procedimentos para conversões (incluindo implementações de base 10 para binário, octal, hexadecimal e BCD)
+// Procedimentos de impressão de bits de float e double
+
+// Função para imprimir a parte inteira em binário
+void imprimir_binario_inteiro(int n) {
+    int binario[32];
+    int i = 0;
+
+    if (n == 0) {
+        printf("0");
+        return;
+    }
+
+    printf("\nPasso a passo da conversao da parte inteira para binario:\n");
+    while (n > 0) {
+        binario[i] = n % 2;
+        printf("%d / 2 = %d com resto %d\n", n, n / 2, binario[i]);
+        n = n / 2;
+        i++;
+    }
+
+    printf("\nParte inteira em binario: ");
+    
+	int j;
+	for (j = i - 1; j >= 0; j--) {
+        printf("%d", binario[j]);
+    }
+    printf("\n\n");
+}
+
+// Função para imprimir a parte fracionária em binário para float
+void imprimir_binario_fracionario(float f) {
+    printf("\nPasso a passo da conversao da parte fracionaria para binario:\n");
+
+    float frac = f - (int)f;
+    int count = 0;
+    int bit;
+
+    while (frac > 0 && count < 23) { // Limite de 23 bits para float
+        frac *= 2;
+        bit = (int)frac;
+        printf("%.15f * 2 = %.15f com parte inteira %d\n", frac / 2, frac, bit);
+        frac -= bit;
+        count++;
+    }
+
+    printf("\nParte fracionaria em binario: ");
+    
+	int i;
+	for (i = 0; i < 23; i++) {
+        printf("%d", (int)(f * pow(2, i)) % 2);
+    }
+    printf("\n");
+}
+
+// Função para imprimir os bits de float e suas partes
+void imprimir_bits_float(float f) {
+    unsigned int *ptr = (unsigned int*)&f;
+    int sinal, expoente;
+    unsigned int fracao;
+
+    sinal = (*ptr >> 31) & 1;
+    expoente = (*ptr >> 23) & 0xFF;
+    fracao = (*ptr & 0x7FFFFF);  // Máscara para a mantissa
+
+    // Exibir o sinal
+    printf("\nSinal: %d\n", sinal);
+
+    // Exibir o expoente
+    printf("Expoente: ");
+    
+	int i;
+	for (i = 7; i >= 0; i--) {
+        printf("%d", (expoente >> i) & 1);
+    }
+    printf(" (Decimal: %d - 127 = %d)\n", expoente, expoente - 127);
+
+    // Exibir a fração
+    printf("Fracao: ");
+    for (i = 22; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
+    }
+    printf("\n");
+
+    // Calcular e exibir a normalização
+    int expoente_real = expoente - 127;
+    printf("\nRepresentar o numero em forma normalizada:\n");
+    printf("Em forma normalizada: 1.");
+    
+	for (i = 22; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
+    }
+    printf(" x 2^%d\n", expoente_real);
+
+    // Exibir a representação binária completa
+    printf("\nRepresentacao binaria em float: ");
+    printf("%d", sinal);
+    
+	for (i = 7; i >= 0; i--) {
+        printf("%d", (expoente >> i) & 1);
+    }
+    for (i = 22; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
+    }
+    printf("\n\n");
+}
+
+// Função para converter e mostrar float
+void converter_real_para_float(float f) {
+    printf("\nNumero convertido para float: %f\n", f);
+    printf("Parte inteira: %d\n", (int)f);
+    imprimir_binario_inteiro((int)f);
+    imprimir_binario_fracionario(f);
+    imprimir_bits_float(f);
+}
+
+// Função para imprimir os bits de double e suas partes
+void imprimir_bits_double(double d) {
+    unsigned long long *ptr = (unsigned long long*)&d;
+    int sinal, expoente;
+    unsigned long long fracao;
+
+    sinal = (*ptr >> 63) & 1;
+    expoente = (*ptr >> 52) & 0x7FF;
+    fracao = (*ptr & 0xFFFFFFFFFFFFF);  // Máscara para a mantissa
+
+    // Exibir o sinal
+    printf("\nSinal: %d\n", sinal);
+
+    // Exibir o expoente
+    printf("Expoente: ");
+    
+	int i;
+	for (i = 10; i >= 0; i--) {
+        printf("%d", (expoente >> i) & 1);
+    }
+    printf(" (Decimal: %d - 1023 = %d)\n", expoente, expoente - 1023);
+
+    // Exibir a fração
+    printf("Fracao: ");
+    for (i = 51; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
+    }
+    printf("\n");
+
+    // Calcular e exibir a normalização
+    int expoente_real = expoente - 1023;
+    printf("\nRepresentar o numero em forma normalizada:\n");
+    printf("Em forma normalizada: 1.");
+    for (i = 51; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
+    }
+    printf(" x 2^%d\n", expoente_real);
+
+    // Exibir a representação binária completa
+    printf("\nRepresentacao binaria em double: ");
+    printf("%d", sinal);
+    for (i = 10; i >= 0; i--) {
+        printf("%d", (expoente >> i) & 1);
+    }
+    for (i = 51; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
+    }
+    printf("\n\n");
+}
+
+// Função para converter e mostrar double
+void converter_real_para_double(double d) {
+    printf("\nNumero convertido para double: %lf\n", d);
+    printf("Parte inteira: %d\n", (int)d);
+    imprimir_binario_inteiro((int)d);
+    printf("\nParte fracionaria em binario:\n");
+
+    double frac = d - (int)d;
+    int count = 0;
+    int bit;
+
+    while (frac > 0 && count < 52) { // Limite de 52 bits para double
+        frac *= 2;
+        bit = (int)frac;
+        printf("%.15lf * 2 = %.15lf com parte inteira %d\n", frac / 2, frac, bit);
+        frac -= bit;
+        count++;
+    }
+
+    printf("\nParte fracionaria em binario: ");
+    
+	int i;
+	for ( i = 0; i < 52; i++) {
+        printf("%d", (int)(d * pow(2, i)) % 2);
+    }
+    printf("\n");
+
+    imprimir_bits_double(d);
+}
 
 // Procedimentos para conversões de base 10 para outras bases e BCD
 
@@ -164,6 +360,7 @@ int main() {
 	while(opcao !=3) {
 			printf("---------- CALCULADORA CONVERSORA ----------\n\n");
         	printf("1 - Converter de base 10 para outras bases\n");
+            printf("2 - Converter um numero real em float e double\n");
             printf("3 - Sair\n");
             printf("\nDigite a opcao desejada: ");
             scanf("%d", &opcao);
@@ -205,10 +402,17 @@ int main() {
                 				break;
             				default:
                 				printf("\nErro! Por favor, digite uma opcao valida.\n\n");
-                				break; // Não define base_valida como 1, portanto o loop continua
+                				break; // N�o define base_valida como 1, portanto o loop continua
         				}
     				} while (!base_valida); // Continua pedindo uma opção válida
 					break;
+				
+				case 2:
+					printf("\nDigite um numero real: ");
+                    scanf("%lf", &real);
+                    converter_real_para_float((float)real);
+                    converter_real_para_double(real);
+                    break;
 					
 				case 3:
 					printf("\nEncerrando...");
