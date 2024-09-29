@@ -15,7 +15,7 @@
 
 // Função para imprimir a parte inteira em binário
 void imprimir_binario_inteiro(int n) {
-    int binario[32];
+    int binario[16];
     int i = 0;
     
     n = abs(n); // Usar o valor absoluto
