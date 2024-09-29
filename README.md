@@ -9,9 +9,12 @@ Calculadora programadora desenvolvida em C como parte da disciplina de Arquitetu
 * Exibição dos bits de números reais: Para os tipos `float` e `double`, exibe os bits de cada parte (sinal, expoente e fração) e calcula a representação normalizada.
 
 ## Ferramentas
-[![My Skills](https://skillicons.dev/icons?i=c)](https://skillicons.dev)
-[![My Skills](https://skillicons.dev/icons?i=git)](https://skillicons.dev)
-[![My Skills](https://skillicons.dev/icons?i=vscode)](https://skillicons.dev)
+<div align="left">
+  <img src="https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=5cc7e7&color=1b1b1b">
+  <img src="https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=5cc7e7&color=1b1b1b">
+  <img src="https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=5cc7e7&color=1b1b1b">
+</div>
+
 
 ## Principais Procedimentos
 * `imprimir_binario_inteiro(int n)`<br>
@@ -96,8 +99,7 @@ calculator.exe
 
 ### 7. Interaja com a calculadora
 Agora você poderá utilizar a calculadora programador para conversões e outras operações que ela oferece. Basta seguir as instruções exibidas pelo programa.<br><br>
-![image](https://github.com/user-attachments/assets/b0e9111d-5db6-4dc1-95c6-f2d912c44069)
-
+![image](https://github.com/user-attachments/assets/c2511e43-71bd-44ad-ab0d-82efd573cba8)
 
 ## Licença
 Este projeto é de código aberto e está disponível sob a <a href="https://github.com/gabriellydasi/programmer-calculator/blob/main/LICENSE">licença MIT</a>.
