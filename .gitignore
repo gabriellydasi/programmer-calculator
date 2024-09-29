@@ -1,0 +1,33 @@
+# Ignorar arquivos de objetos e binários
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dll
+
+# Ignorar diretórios de compilação
+/build/
+/bin/
+/lib/
+/obj/
+/Debug/
+/Release/
+
+# Ignorar arquivos temporários do editor e do sistema operacional
+*.tmp
+*.swp
+*.swo
+*.bak
+*.log
+*~
+
+# Ignorar arquivos de depuração
+*.dSYM/
+*.stackdump
+
+# Ignorar arquivos gerados por IDEs
+.vscode/
+.idea/
+*.code-workspace
