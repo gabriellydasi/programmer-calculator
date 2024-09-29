@@ -2,7 +2,7 @@
   Autor: Gabrielly Silva
   Email: gabrielly.silvao@upe.br
   Data de criação: 14/09/2024
-  Última atualização: 19/09/2024 20:41
+  Última atualização: 29/09/2024 13:35
   Descrição: Calculadora programadora que converte números em diferentes bases e realiza conversões de ponto flutuante.
 */
 
@@ -17,6 +17,8 @@
 void imprimir_binario_inteiro(int n) {
     int binario[32];
     int i = 0;
+    
+    n = abs(n); // Usar o valor absoluto
 
     if (n == 0) {
         printf("0");
@@ -33,8 +35,8 @@ void imprimir_binario_inteiro(int n) {
 
     printf("\nParte inteira em binario: ");
     
-	int j;
-	for (j = i - 1; j >= 0; j--) {
+    int j;
+    for (j = i - 1; j >= 0; j--) {
         printf("%d", binario[j]);
     }
     printf("\n\n");
@@ -44,7 +46,7 @@ void imprimir_binario_inteiro(int n) {
 void imprimir_binario_fracionario(float f) {
     printf("\nPasso a passo da conversao da parte fracionaria para binario:\n");
 
-    float frac = f - (int)f;
+    float frac = fabs(f) - (int)fabs(f); // Usar o valor absoluto
     int count = 0;
     int bit;
 
@@ -58,9 +60,9 @@ void imprimir_binario_fracionario(float f) {
 
     printf("\nParte fracionaria em binario: ");
     
-	int i;
-	for (i = 0; i < 23; i++) {
-        printf("%d", (int)(f * pow(2, i)) % 2);
+    int i;
+    for (i = 0; i < 23; i++) {
+        printf("%d", (int)(fabs(f) * pow(2, i)) % 2); // Usar o valor absoluto
     }
     printf("\n");
 }
@@ -71,7 +73,7 @@ void imprimir_bits_float(float f) {
     int sinal, expoente;
     unsigned int fracao;
 
-    sinal = (*ptr >> 31) & 1;
+    sinal = (*ptr >> 31) & 1; // Considera o sinal do número original
     expoente = (*ptr >> 23) & 0xFF;
     fracao = (*ptr & 0x7FFFFF);  // Máscara para a mantissa
 
@@ -81,8 +83,8 @@ void imprimir_bits_float(float f) {
     // Exibir o expoente
     printf("Expoente: ");
     
-	int i;
-	for (i = 7; i >= 0; i--) {
+    int i;
+    for (i = 7; i >= 0; i--) {
         printf("%d", (expoente >> i) & 1);
     }
     printf(" (Decimal: %d - 127 = %d)\n", expoente, expoente - 127);
@@ -99,7 +101,7 @@ void imprimir_bits_float(float f) {
     printf("\nRepresentar o numero em forma normalizada:\n");
     printf("Em forma normalizada: 1.");
     
-	for (i = 22; i >= 0; i--) {
+    for (i = 22; i >= 0; i--) {
         printf("%d", (fracao >> i) & 1);
     }
     printf(" x 2^%d\n", expoente_real);
@@ -108,7 +110,7 @@ void imprimir_bits_float(float f) {
     printf("\nRepresentacao binaria em float: ");
     printf("%d", sinal);
     
-	for (i = 7; i >= 0; i--) {
+    for (i = 7; i >= 0; i--) {
         printf("%d", (expoente >> i) & 1);
     }
     for (i = 22; i >= 0; i--) {
@@ -120,8 +122,8 @@ void imprimir_bits_float(float f) {
 // Função para converter e mostrar float
 void converter_real_para_float(float f) {
     printf("\nNumero convertido para float: %f\n", f);
-    printf("Parte inteira: %d\n", (int)f);
-    imprimir_binario_inteiro((int)f);
+    printf("Parte inteira: %d\n", (int)fabs(f)); // Usar o valor absoluto
+    imprimir_binario_inteiro((int)fabs(f)); // Usar o valor absoluto
     imprimir_binario_fracionario(f);
     imprimir_bits_float(f);
 }
@@ -132,7 +134,7 @@ void imprimir_bits_double(double d) {
     int sinal, expoente;
     unsigned long long fracao;
 
-    sinal = (*ptr >> 63) & 1;
+    sinal = (*ptr >> 63) & 1; // Considera o sinal do número original
     expoente = (*ptr >> 52) & 0x7FF;
     fracao = (*ptr & 0xFFFFFFFFFFFFF);  // Máscara para a mantissa
 
@@ -142,8 +144,8 @@ void imprimir_bits_double(double d) {
     // Exibir o expoente
     printf("Expoente: ");
     
-	int i;
-	for (i = 10; i >= 0; i--) {
+    int i;
+    for (i = 10; i >= 0; i--) {
         printf("%d", (expoente >> i) & 1);
     }
     printf(" (Decimal: %d - 1023 = %d)\n", expoente, expoente - 1023);
@@ -179,11 +181,11 @@ void imprimir_bits_double(double d) {
 // Função para converter e mostrar double
 void converter_real_para_double(double d) {
     printf("\nNumero convertido para double: %lf\n", d);
-    printf("Parte inteira: %d\n", (int)d);
-    imprimir_binario_inteiro((int)d);
+    printf("Parte inteira: %d\n", (int)fabs(d)); // Usar o valor absoluto
+    imprimir_binario_inteiro((int)fabs(d)); // Usar o valor absoluto
     printf("\nParte fracionaria em binario:\n");
 
-    double frac = d - (int)d;
+    double frac = fabs(d) - (int)fabs(d); // Usar o valor absoluto
     int count = 0;
     int bit;
 
@@ -197,9 +199,9 @@ void converter_real_para_double(double d) {
 
     printf("\nParte fracionaria em binario: ");
     
-	int i;
-	for ( i = 0; i < 52; i++) {
-        printf("%d", (int)(d * pow(2, i)) % 2);
+    int i;
+    for (i = 0; i < 52; i++) {
+        printf("%d", (int)(fabs(d) * pow(2, i)) % 2); // Usar o valor absoluto
     }
     printf("\n");
 
@@ -354,7 +356,8 @@ void decimal_para_bcd(int n) {
 
 // Função principal do programa
 int main() {
-	int numero, opcao, base;
+	int numero;
+    int opcao;
 	double real;
 	
 	while(opcao !=3) {
